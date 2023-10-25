@@ -1,0 +1,176 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "otto-back-office-website": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "customWebpackConfig": {
+              "path": "node_modules/@myndmanagement/scripts/webpack.config.js"
+            },
+            "baseHref": "/back-office/v2/",
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "crossOrigin": "use-credentials",
+            "outputHashing": "all",
+            "preserveSymlinks": true,
+            "progress": false,
+            "allowedCommonJsDependencies": [
+              "angular2-text-mask",
+              "date-fns",
+              "date-fns-timezone",
+              "file-saver",
+              "lodash",
+              "qs",
+              "resize-sensor"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            },
+            "assets": [
+              "src/assets",
+              {
+                "glob": "*",
+                "input": "node_modules/@myndmanagement/styles/assets/websites",
+                "output": "."
+              }
+            ],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/normalize.css/normalize.css",
+              "node_modules/@myndmanagement/icon-font/font.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/@myndmanagement/styles/styles/toastr.scss",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
+              "node_modules/@fontsource/inter/index.css"
+            ],
+            "budgets": [
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "7kb"
+              }
+            ],
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
+          },
+          "configurations": {
+            "prod": {
+              "buildOptimizer": true,
+              "extractLicenses": true,
+              "optimization": true,
+              "sourceMap": false,
+              "namedChunks": false
+            },
+            "staging": {
+              "buildOptimizer": true,
+              "optimization": true,
+              "sourceMap": false,
+              "namedChunks": false
+            },
+            "dev": {
+              "buildOptimizer": true
+            },
+            "local": {
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "*",
+                  "input": "node_modules/@myndmanagement/styles/assets/websites",
+                  "output": "."
+                },
+                {
+                  "glob": "mwc-side-menu-otto.js",
+                  "input": "node_modules/@myndmanagement/mwc-side-menu-otto",
+                  "output": "web-components"
+                },
+                {
+                  "glob": "mwc-search-otto.js",
+                  "input": "node_modules/@myndmanagement/mwc-search-otto",
+                  "output": "web-components"
+                },
+                {
+                  "glob": "mwc-notification-feed-otto.js",
+                  "input": "node_modules/@myndmanagement/mwc-notification-feed-otto",
+                  "output": "web-components"
+                }
+              ],
+              "progress": true,
+              "outputHashing": "none"
+            }
+          },
+          "defaultConfiguration": "prod"
+        },
+        "serve": {
+          "builder": "@angular-builders/custom-webpack:dev-server",
+          "options": {
+            "browserTarget": "otto-back-office-website:build:local",
+            "proxyConfig": "./proxy.conf.json"
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "otto-back-office-website:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-builders/jest:run",
+          "options": {
+            "configPath": "./jest/jest.config.js",
+            "tsConfig": "tsconfig.spec.json",
+            "assets": [
+              "src/assets"
+            ],
+            "stylePreprocessorOptions": [
+              "node_modules/@myndmanagement/styles"
+            ],
+            "styles": [
+              "src/styles.css",
+              "node_modules/normalize.css/normalize.css",
+              "node_modules/@myndmanagement/icon-font/font.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/@myndmanagement/styles/styles/toastr.scss",
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
+              "node_modules/@fontsource/inter/index.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "app",
+      "style": "scss"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "app"
+    }
+  },
+  "cli": {
+    "analytics": false
+  },
+  "defaultProject": "otto-back-office-website"
+}

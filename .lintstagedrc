@@ -1,0 +1,4 @@
+{
+  "src/**/*.scss": "stylelint --fix",
+  "src/**/*.ts": "tslint -c tslint.json --fix"
+}

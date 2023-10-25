@@ -1,0 +1,23 @@
+<m-accordian-panel
+  [expanded]="expanded"
+  [class.expanded]="expanded"
+  (opened)="expandPanel()"
+  (closed)="collapsePanel()"
+>
+  <m-accordian-panel-header>
+    <div class="panel-title">{{ title$ | async }}</div>
+    <div class="buttons" (click)="$event.preventDefault(); $event.stopPropagation()">
+      <m-button color="white" [small]="true" [hasMinWidth]="false" (click)="onAddPressed()"
+        ><i class="icon-add-md"></i><span>Asset</span></m-button
+      >
+    </div>
+  </m-accordian-panel-header>
+  <m-accordian-panel-content class="accordian-content">
+    <ng-container *mLet="state$ | async as state">
+      <m-content-presenter [loading]="state.isLoading" [errorMessage]="state.errorMessage" (retry)="onRetryPressed()">
+        <asset-inventory-table [inventory]="state.inventory"></asset-inventory-table>
+      </m-content-presenter>
+    </ng-container>
+  </m-accordian-panel-content>
+</m-accordian-panel>
+<edit-asset-inventory *ngIf="isFormVisible$ | async"></edit-asset-inventory>

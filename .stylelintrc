@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "@myndmanagement/lint/.stylelintrc"
+  ],
+  "overrides": [
+    {
+      "files": ["**/*.scss"],
+      "customSyntax": "postcss-scss"
+    }
+  ]
+}

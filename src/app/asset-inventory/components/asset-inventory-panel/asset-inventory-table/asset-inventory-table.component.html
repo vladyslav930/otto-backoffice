@@ -1,0 +1,34 @@
+<div class="empty" *ngIf="!inventory.length; else table">No assets have been added yet.</div>
+<ng-template #table>
+  <m-table [isFullWidth]="true">
+    <m-table-row [isHeader]="true">
+      <m-table-column>Name</m-table-column>
+      <m-table-column>Status</m-table-column>
+      <m-table-column>Purchase Date</m-table-column>
+      <m-table-column>Cost</m-table-column>
+      <m-table-column>Warranty Expiration</m-table-column>
+      <m-table-column>Warranty Contact</m-table-column>
+      <m-table-column theme="controls"></m-table-column>
+    </m-table-row>
+    <m-table-row *ngFor="let item of inventory; trackBy: trackByInventoryId">
+      <m-table-column
+        ><a (click)="onInventoryClicked(item)">{{ item.details.name }}</a></m-table-column
+      >
+      <m-table-column>{{ item.details.status | mMapValue: inventoryStatuses }}</m-table-column>
+      <m-table-column>{{ item.details.purchaseDate | mDate }}</m-table-column>
+      <m-table-column>{{ item.details.cost | mCurrency }}</m-table-column>
+      <m-table-column>{{ item.details.warrantyExpirationDate | mDate }}</m-table-column>
+      <m-table-column>{{ item.details.warrantyContactInfo }}</m-table-column>
+      <m-table-column theme="controls">
+        <m-button
+          class="edit-button"
+          icon="pencil"
+          color="white"
+          [small]="true"
+          [hasMinWidth]="false"
+          (click)="onInventoryClicked(item)"
+        ></m-button>
+      </m-table-column>
+    </m-table-row>
+  </m-table>
+</ng-template>

@@ -1,0 +1,9 @@
+{
+  "/web-components": {
+    "target": "http://localhost:4200",
+    "secure": false,
+    "pathRewrite": {
+      "^/web-components/": "/back-office/v2/web-components/"
+    }
+  }
+}
