@@ -1,0 +1,16 @@
+.form {
+  padding-bottom: 90px;
+}
+
+.expected-life-span-inputs {
+  display: flex;
+  gap: 12px;
+
+  .expected-life-span {
+    width: 60px;
+  }
+
+  .expected-life-span-type {
+    width: 100px;
+  }
+}

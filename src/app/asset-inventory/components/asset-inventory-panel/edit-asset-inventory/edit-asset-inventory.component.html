@@ -1,0 +1,59 @@
+<m-side-panel headerType="subpanel" header="Asset" [isFixed]="true" [showOverlay]="true" (close)="onClose()">
+  <m-side-panel-block [isFullHeight]="true">
+    <form class="form" [formGroup]="form">
+      <m-text-input label="Name" formControlName="name"></m-text-input>
+      <m-text-input label="Make" formControlName="make"></m-text-input>
+      <m-text-input label="Model" formControlName="model"></m-text-input>
+      <m-text-input label="Serial Number" formControlName="serialNumber"></m-text-input>
+      <m-form-date-picker
+        label="Purchase Date"
+        formControlName="purchaseDate"
+        [clearWhenEmpty]="true"
+      ></m-form-date-picker>
+      <m-text-input label="Cost" type="currency" formControlName="cost"></m-text-input>
+      <m-text-area label="Notes" formControlName="notes"></m-text-area>
+      <m-select label="Status" formControlName="status">
+        <m-option *ngFor="let item of selectableInventoryStatuses | keyvalue" [value]="item.key">{{
+          item.value
+        }}</m-option>
+      </m-select>
+      <div class="form-row">
+        <m-label>Expected Life Span</m-label>
+        <div class="expected-life-span-inputs">
+          <m-text-input class="expected-life-span" type="number" formControlName="expectedLifeSpan"></m-text-input>
+          <m-select class="expected-life-span-type" formControlName="expectedLifeSpanType" [showClear]="true">
+            <m-option *ngFor="let item of expectedLifeSpanTypes | keyvalue" [value]="item.key">{{
+              item.value
+            }}</m-option>
+          </m-select>
+        </div>
+      </div>
+      <m-text-area label="Warranty Contact Info" formControlName="warrantyContactInfo"></m-text-area>
+      <m-form-date-picker
+        label="Warranty Expiration Date"
+        formControlName="warrantyExpirationDate"
+        [clearWhenEmpty]="true"
+      ></m-form-date-picker>
+      <m-text-input label="Warranty Company" formControlName="warrantyCompany"></m-text-input>
+      <m-attachments
+        [activeMode]="MyndAttachmentsViewType.Grid"
+        [forcedMode]="MyndAttachmentsViewType.Grid"
+        [uploadSelectorButtonOnly]="true"
+        header=""
+      ></m-attachments>
+    </form>
+    <m-side-panel-block [isFooter]="true" [isAlignedRight]="true">
+      <m-button color="green" [loading]="isSaving$ | async" [isDisabled]="form.invalid" (click)="onSubmit()"
+        >Save</m-button
+      >
+      <m-button
+        *ngIf="!isNew"
+        color="red"
+        [loading]="isDeleting$ | async"
+        mConfirmClick="Are you sure you want to remove this asset?"
+        (mConfirmedClick)="onDelete()"
+        >Delete</m-button
+      >
+    </m-side-panel-block>
+  </m-side-panel-block>
+</m-side-panel>
