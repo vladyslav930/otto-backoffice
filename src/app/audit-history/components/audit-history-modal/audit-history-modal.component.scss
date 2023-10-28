@@ -1,0 +1,33 @@
+:host {
+  &.file-preview .modal .body {
+    padding: 0;
+  }
+
+  &.mobile-popup .modal {
+    width: 80%;
+  }
+}
+
+.no-data {
+  text-align: center;
+}
+
+m-throbber,
+.no-data {
+  display: block;
+  margin-top: 150px;
+}
+
+::ng-deep {
+  .audit-history-modal {
+    .modal-wrapper {
+      overflow: scroll;
+    }
+
+    .body {
+      min-height: 400px;
+      min-width: 572px;
+      max-width: 40vw;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+<m-modal-container modalTitle="Audit history" (close)="close.emit()">
+  <m-history-timeline
+    viewType="default"
+    [historyRecords]="auditEvents$ | async"
+    [isLoading]="isLoading$ | async"
+  ></m-history-timeline>
+  <ng-container *mLet="totalCount$ | async as totalCount">
+    <ng-container *mLet="hasMoreItems$ | async as hasMoreItems">
+      <m-pagination
+        *ngIf="totalCount > limit"
+        [currentNumberOfRecordsPresented]="limit"
+        [limit]="limit"
+        [totalCount]="totalCount"
+        [offset]="offset$ | async"
+        [showOnlyPages]="true"
+        [showJumpToInput]="false"
+        (change)="handlePaginate($event)"
+      ></m-pagination>
+    </ng-container>
+  </ng-container>
+</m-modal-container>
