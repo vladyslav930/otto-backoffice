@@ -1,0 +1,8 @@
+<div *ngIf="ownerCompletionAudit?.incompleteFields?.length">
+  <strong>Sorry, but the following owner related fields can't be edited on this page</strong>
+  <br/>
+  <a [href]="myndOttoAppPrefix.backOfficeV2 + '/owner/' + ownerCompletionAudit.ownerId">
+    Owner
+  </a>
+  <div *ngFor="let field of ownerCompletionAudit.incompleteFields">{{ field }}</div>
+</div>

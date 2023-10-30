@@ -1,0 +1,16 @@
+<div *ngIf="missedFields.size">
+  <ng-container *mLet="propertyDetails$ | async as property"
+    ><strong>Sorry, but the following property related fields can't be edited on this page</strong><br /><a
+      [href]="myndOttoAppPrefix.backOfficeV2 + '/properties/' + property?.propertyId"
+      >Property: {{ property.address | mMailingAddress: true }}</a
+    >
+    <div *ngFor="let field of missedFields">{{ field }}</div>
+  </ng-container>
+</div>
+<grid-editable
+  *ngIf="gridConfig"
+  [isEditing]="isEditing$ | async"
+  [gridForm]="form"
+  [config]="gridConfig"
+  [submitTrigger]="saveTrigger"
+></grid-editable>

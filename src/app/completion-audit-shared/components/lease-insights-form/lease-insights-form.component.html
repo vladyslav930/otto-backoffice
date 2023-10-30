@@ -1,0 +1,10 @@
+<ng-container *ngIf="leasesCompletionAudit?.length">
+  <div *ngFor="let leaseCompletionAudit of leasesCompletionAudit">
+    <strong>Sorry, but the following lease related fields can't be edited on this page</strong>
+    <br/>
+    <a [href]="leaseCompletionAudit.leaseFlowId | mLeaseUrl">
+      Lease
+    </a>
+    <div *ngFor="let field of leaseCompletionAudit.incompleteFields">{{ field }}</div>
+  </div>
+</ng-container>
