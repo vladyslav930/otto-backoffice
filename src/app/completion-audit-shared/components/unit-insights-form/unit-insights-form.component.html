@@ -1,0 +1,34 @@
+<ng-container *ngIf="unit$ | async as selectedUnit">
+  <div *ngIf="missedFields.size">
+    <strong>Sorry, but the following unit related fields can't be edited on this page</strong>
+    <br/>
+    <a
+      [href]="myndOttoAppPrefix.backOfficeV2 + '/units/' + selectedUnit?.details.unitId"
+    >Unit: {{ selectedUnit.address }}</a>
+    <div *ngFor="let field of missedFields">{{ field }}</div>
+  </div>
+  <ng-container *mLet="unitsList$ | async as unitsList">
+    <m-select *ngIf="unitsList.length > 1" label="Individual unit" [formControl]="unitFormControl">
+      <m-option *ngFor="let unit of unitsList" [value]="unit.unitId">{{ unit.address }}</m-option>
+    </m-select>
+  </ng-container>
+  <m-button
+    [isDisabled]="!canCreateLease(selectedUnit.details)"
+    (click)="openOnboardLeaseSidePanel()"
+  >Create Lease</m-button>
+  <onboard-existing-lease
+    *ngIf="onboardLeaseSidePanelVisible"
+    [unitId]="selectedUnit.details.unitId"
+    (close)="closeOnboardLeaseSidePanel()"
+  ></onboard-existing-lease>
+  <lease-insights-form
+    [leasesCompletionAudit]="(selectedUnit.details.unitId | mArrayFind:unitsCompletionAudit:'unitId')?.leases"
+  ></lease-insights-form>
+</ng-container>
+<grid-editable
+  *ngIf="gridConfig"
+  [isEditing]="isEditing"
+  [gridForm]="form"
+  [config]="gridConfig"
+  [submitTrigger]="saveTrigger"
+></grid-editable>
