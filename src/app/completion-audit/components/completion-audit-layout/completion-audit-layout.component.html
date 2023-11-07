@@ -1,0 +1,61 @@
+<m-page-header [titles]="['PROPERTY COMPLETION AUDIT']">
+  <div class="header">
+    <ng-container *ngIf="propertyDetails$ | async as details; else loadingProperty">
+      <a class="title" [routerLink]="'/properties/' + details.propertyId">{{ details.address | mMailingAddress: true }}</a>
+    </ng-container>
+
+    <ng-template #loadingProperty>
+      <m-skeleton class="title" [width]="250"></m-skeleton>
+    </ng-template>
+
+    <div class="right">
+      <div class="progress-container" *mLet="completeness$ | async as completeness">
+        <m-progress-bar [progress]="completeness"></m-progress-bar>
+        <b class="completeness-info">{{ completeness | percent }} Complete</b>
+      </div>
+
+      <editable-panel-header
+        [editing]="isEditing$ | async"
+        [loading]="isLoading$ | async"
+        (save)="onSave()"
+        (edit)="onEdit()"
+        (cancel)="onCancel()">
+      </editable-panel-header>
+    </div>
+  </div>
+</m-page-header>
+
+<div class="body">
+  <ng-container *ngIf="!(isLoading$ | async); else loadingTemplate">
+    <ng-container body *ngIf="incompleteFields$ | async as incompleteFields">
+      <owner-insights-form [ownerCompletionAudit]="incompleteFields.owner"></owner-insights-form>
+
+      <property-insights-form
+        [isEditing]="isEditing$ | async"
+        [saveTrigger]="saveTrigger"
+        [incompleteFields]="incompleteFields.incompleteFields">
+      </property-insights-form>
+
+      <div class="no-data" *ngIf="incompleteFields.incompleteFields?.length === 0">
+        All required fields, related to property are filled
+      </div>
+
+      <unit-insights-form
+        [isEditing]="isEditing$ | async"
+        [saveTrigger]="saveTrigger"
+        [unitsCompletionAudit]="incompleteFields.units"
+        [unitId]="unitId$ | async">
+      </unit-insights-form>
+
+      <div class="no-data" *ngIf="incompleteFields.units?.length === 0">
+        All required fields, related to units are filled
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loadingTemplate>
+    <div class="loader-container">
+      <m-throbber size="large"></m-throbber>
+    </div>
+  </ng-template>
+</div>
