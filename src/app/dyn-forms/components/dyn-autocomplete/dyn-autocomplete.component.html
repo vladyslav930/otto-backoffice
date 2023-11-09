@@ -1,0 +1,17 @@
+<div class="section-item">
+  <m-label
+    class="section-item-label"
+    [isError]="!params.readonly && control.invalid && control.touched"
+    [isBold]="!params.readonly"
+  >
+    <label>{{ params.title }}</label>
+  </m-label>
+  <div class="section-item-value" [formGroup]="parentControl">
+    <autocomplete-form
+      [formControl]="control"
+      [search]="params.search"
+      [addNewItem]="params.addNewItem"
+      [addNewItemDisplayName]="params.addNewItemDisplayName"
+    ></autocomplete-form>
+  </div>
+</div>

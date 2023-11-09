@@ -1,0 +1,15 @@
+<div class="section-item">
+  <m-label
+    class="section-item-label"
+    [isError]="!params.readonly && control.invalid && control.touched"
+    [isBold]="!params.readonly"
+  >
+    <label>{{ params.title }}</label>
+  </m-label>
+  <div class="section-item-value" [formGroup]="parentControl">
+    <codebox-serial
+      [formControl]="control"
+      [propertyId]="params.propertyId"
+    ></codebox-serial>
+  </div>
+</div>
