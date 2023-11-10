@@ -1,0 +1,87 @@
+<m-page-header [titles]="['ENTITIES', 'Create Entity']"></m-page-header>
+<div class="content-container">
+  <form class="section-layout edit-mode" [formGroup]="form" (ngSubmit)="save()">
+    <div class="section-block">
+      <label class="section-title">Entity Details</label>
+      <div class="section-content">
+        <div class="section-item">
+          <m-text-input label="Legal Name" formControlName="businessLegalName" mValidateControl></m-text-input>
+        </div>
+        <div class="section-item">
+          <m-autocomplete-owner label="Owner" formControlName="owner" mValidateControl></m-autocomplete-owner>
+        </div>
+      </div>
+    </div>
+    <div class="section-block">
+      <label class="section-title">Bank Details</label>
+      <div class="section-content">
+        <div class="section-item">
+          <m-text-input
+            label="Bank Account #"
+            formControlName="accountNumber"
+            controlUpdateStrategy="onInput"
+            mValidateControl
+            [mValidateControlPatternsError]="bankPatternValidationErrors.patterns"
+          ></m-text-input>
+        </div>
+        <div class="section-item">
+          <m-text-input
+            label="Bank Routing #"
+            formControlName="routingNumber"
+            controlUpdateStrategy="onInput"
+            mValidateControl
+            [mValidateControlPatternsError]="bankPatternValidationErrors.patterns"
+          ></m-text-input>
+        </div>
+      </div>
+    </div>
+    <div class="section-block">
+      <label class="section-title">Address</label>
+      <div class="section-content address">
+        <div class="section-item country">
+          <m-autocomplete-select
+            label="Country"
+            formControlName="country"
+            mValidateControl
+            [options]="myndCountryOptions"
+            (selectOption)="resetState()"
+          ></m-autocomplete-select>
+        </div>
+        <div class="section-item mailing-address">
+          <autocomplete-address
+            *ngIf="isCountryUs"
+            label="Mailing Address"
+            formControlName="address"
+            mValidateControl
+            (placeSelected)="placeSelected($event)"
+          ></autocomplete-address>
+          <m-text-input
+            *ngIf="!isCountryUs"
+            label="Mailing Address"
+            formControlName="address"
+            mValidateControl
+          ></m-text-input>
+        </div>
+        <div class="section-item city">
+          <m-text-input label="City" formControlName="city" mValidateControl></m-text-input>
+        </div>
+        <div class="section-item state">
+          <m-autocomplete-select
+            *ngIf="isCountryUs"
+            label="State"
+            formControlName="state"
+            mValidateControl
+            [options]="myndStateOptions"
+          ></m-autocomplete-select>
+          <m-text-input *ngIf="!isCountryUs" label="State" formControlName="state" mValidateControl></m-text-input>
+        </div>
+        <div class="section-item zip-code">
+          <m-text-input label="Zip Code" formControlName="zip" mValidateControl></m-text-input>
+        </div>
+      </div>
+    </div>
+    <div class="section-block submit-block">
+      <m-button type="submit" color="green" [loading]="isCreatingEntity$ | async">Add Entity</m-button>
+    </div>
+  </form>
+</div>

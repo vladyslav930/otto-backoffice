@@ -1,0 +1,63 @@
+<m-page-header [titles]="['Import Tax Ids']"></m-page-header>
+<div class="accounting-import" [ngSwitch]="currentStep">
+  <m-wizard-steps [steps]="steps" [currentStep]="currentStep" (stepChange)="switchToStep($event)"></m-wizard-steps>
+  <div class="wizard-step" *ngSwitchCase="0">
+    <m-button (click)="openSpreadsheetDetailsModal()">Enter Spreadsheet Details</m-button>
+  </div>
+  <div class="wizard-step column" *ngSwitchCase="1">
+    <div class="buttons-row">
+      <m-button (click)="importData()" [loading]="(entitiesUpdate$ | async)?.loading" color="green"
+        >Import data</m-button
+      >
+    </div>
+    <m-table-view [table]="tableConfig"></m-table-view>
+    <m-pagination
+      *ngIf="originalData?.length > limit"
+      [currentNumberOfRecordsPresented]="originalData?.length"
+      [limit]="limit"
+      [offset]="offset"
+      [totalCount]="originalData?.length"
+      (change)="paginate($event)"
+    ></m-pagination>
+  </div>
+  <div class="wizard-step" *ngSwitchCase="2">
+    <h3 class="success-message">Spreadsheet data has been successfully uploaded!</h3>
+  </div>
+</div>
+<m-side-panel
+  *ngIf="showSpreadsheetDetails"
+  headerType="main"
+  header="Spreadsheet details"
+  [isFixed]="true"
+  [showOverlay]="true"
+  (close)="cancelSheetDetailsForm()"
+>
+  <m-side-panel-block [isFullHeight]="true" [formGroup]="sheetForm">
+    <div class="form-row">
+      <div class="flex-column">
+        <m-text-input
+          placeholder="https://docs.google.com/spreadsheets/d/....."
+          formControlName="url"
+          label="Spreadsheet url"
+          [error]="sheetForm.get('url').dirty && sheetForm.get('url').invalid ? 'Spreadsheet url is required' : null"
+        ></m-text-input>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="flex-column">
+        <m-text-input
+          placeholder="Sheet 1"
+          formControlName="sheet"
+          label="Sheet name"
+          [error]="sheetForm.get('sheet').dirty && sheetForm.get('sheet').invalid ? 'Sheet name is required' : null"
+        ></m-text-input>
+      </div>
+    </div>
+  </m-side-panel-block>
+  <m-side-panel-block [isFooter]="true" [isAlignedRight]="true">
+    <m-button (click)="cancelSheetDetailsForm()">Cancel</m-button>
+    <m-button color="green" [loading]="(sheet$ | async)?.loading" [hasMinWidth]="false" (click)="loadData()"
+      >Load sheet</m-button
+    >
+  </m-side-panel-block>
+</m-side-panel>
